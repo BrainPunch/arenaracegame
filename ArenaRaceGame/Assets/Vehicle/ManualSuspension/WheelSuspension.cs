@@ -8,6 +8,8 @@ public class WheelSuspension : MonoBehaviour {
     
     public float forceMax = 1f;
 
+    public float frictionDynamic = 1f;
+
     Rigidbody body = null;
     GameObject collide = null;
 
@@ -16,6 +18,8 @@ public class WheelSuspension : MonoBehaviour {
     float position = 0f;
     GameObject ground = null;
     Rigidbody groundBody = null;
+    Vector3 groundPosition = Vector3.zero;
+    Vector3 groundNormal = Vector3.up;
 
     // Use this for initialization
     void Start () {
@@ -30,9 +34,13 @@ public class WheelSuspension : MonoBehaviour {
         scanGround();
         if (ground != null) {
             var force = (Mathf.Lerp(forceMax, 0f, (position / range)) * transform.up);
-            body.AddForceAtPosition(force, transform.position);
+            var groundVel = (groundBody != null) ? groundBody.GetPointVelocity(groundPosition) : Vector3.zero;
+            var relativeVel = (body.GetPointVelocity(groundPosition) - groundVel);
+            var friction = -relativeVel * frictionDynamic * Mathf.Cos(Vector3.Angle(transform.up, groundNormal) * Mathf.Deg2Rad);
+            Debug.Log(friction);
+            body.AddForceAtPosition(force, wheel.position);
             if (groundBody != null) {
-                groundBody.AddForceAtPosition(-force, transform.position);
+                groundBody.AddForceAtPosition(-force, wheel.position);
             }
         }
     }
@@ -44,9 +52,6 @@ public class WheelSuspension : MonoBehaviour {
 	}
 
     void scanGround () {
-        ground = null;
-        groundBody = null;
-
         collide.SetActive(false);
 
         RaycastHit hit;
@@ -55,12 +60,18 @@ public class WheelSuspension : MonoBehaviour {
             position = 0;
             ground = col[0].gameObject;
             groundBody = col[0].GetComponent<Rigidbody>();
+            groundPosition = transform.position;
+            groundNormal = transform.up;
         } else if (Physics.SphereCast(transform.position, radius, -transform.up, out hit, range)) {
             position = hit.distance;
             ground = hit.collider.gameObject;
             groundBody = hit.rigidbody;
+            groundPosition = hit.point;
+            groundNormal = hit.normal;
         } else {
             position = range;
+            ground = null;
+            groundBody = null;
         }
 
         collide.SetActive(true);
