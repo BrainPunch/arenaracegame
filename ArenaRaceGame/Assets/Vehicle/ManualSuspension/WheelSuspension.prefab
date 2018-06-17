@@ -5,11 +5,11 @@ GameObject:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 444434}
-  - 23: {fileID: 2378498}
-  - 33: {fileID: 3318240}
+  - component: {fileID: 444434}
+  - component: {fileID: 2378498}
+  - component: {fileID: 3318240}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -22,9 +22,9 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 433686}
+  - component: {fileID: 433686}
   m_Layer: 0
   m_Name: Wheel
   m_TagString: Untagged
@@ -37,10 +37,10 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 438332}
-  - 114: {fileID: 11426596}
+  - component: {fileID: 438332}
+  - component: {fileID: 11426596}
   m_Layer: 0
   m_Name: WheelSuspension
   m_TagString: Untagged
@@ -61,6 +61,7 @@ Transform:
   - {fileID: 444434}
   m_Father: {fileID: 438332}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &438332
 Transform:
   m_ObjectHideFlags: 1
@@ -74,6 +75,7 @@ Transform:
   - {fileID: 433686}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &444434
 Transform:
   m_ObjectHideFlags: 1
@@ -86,6 +88,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 433686}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &2378498
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -95,17 +98,22 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
   m_Materials:
   - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
-  m_SubsetIndices: 
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
   m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 1
-  m_ReflectionProbeUsage: 1
   m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -130,7 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 700b96ba8e9d9a44b9765961ef8bf15e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 0.75
+  range: 1.5
   radius: 0.4
   forceMax: 15
   frictionDynamic: 1

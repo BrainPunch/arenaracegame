@@ -16,10 +16,12 @@ public class WheelSuspension : MonoBehaviour {
     Transform wheel = null;
 
     float position = 0f;
+    float positionLast = 0f;
     GameObject ground = null;
     Rigidbody groundBody = null;
     Vector3 groundPosition = Vector3.zero;
     Vector3 groundNormal = Vector3.up;
+    GameObject groundLast = null;
 
     // Use this for initialization
     void Start () {
@@ -33,16 +35,19 @@ public class WheelSuspension : MonoBehaviour {
     void FixedUpdate () {
         scanGround();
         if (ground != null) {
-            var force = (Mathf.Lerp(forceMax, 0f, (position / range)) * transform.up);
-            var groundVel = (groundBody != null) ? groundBody.GetPointVelocity(groundPosition) : Vector3.zero;
-            var relativeVel = (body.GetPointVelocity(groundPosition) - groundVel);
-            var friction = -relativeVel * frictionDynamic * Mathf.Cos(Vector3.Angle(transform.up, groundNormal) * Mathf.Deg2Rad);
-            Debug.Log(friction);
+            var force = Mathf.Lerp(forceMax, 0f, (position / range)) * transform.up;
+            if (groundLast != null) {
+                var groundVel = (groundBody != null) ? groundBody.GetPointVelocity(groundPosition) : Vector3.zero;
+                var wheelVel = -50f * transform.forward + body.GetPointVelocity(groundPosition) + transform.TransformVector(Vector3.down * (position - positionLast) / Time.fixedDeltaTime);
+                force += Vector3.ProjectOnPlane(groundVel - wheelVel, groundNormal).normalized * force.magnitude * frictionDynamic;
+            }
             body.AddForceAtPosition(force, wheel.position);
             if (groundBody != null) {
                 groundBody.AddForceAtPosition(-force, wheel.position);
             }
         }
+        positionLast = position;
+        groundLast = ground;
     }
 	
 	// Update is called once per frame
