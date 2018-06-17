@@ -33,6 +33,6 @@ public class WheelMesh : MonoBehaviour {
         var t = (timeIncrement / Time.fixedDeltaTime);
         var targetPosition = Vector3.LerpUnclamped(positionLast, position, t);
         transform.localPosition = Vector3.SmoothDamp(transform.localPosition, targetPosition, ref positionSpeed, 0.025f);
-        transform.rotation = Quaternion.SlerpUnclamped(rotationLast, rotation, t);
+        transform.localRotation = Quaternion.SlerpUnclamped(rotationLast, rotation, t);
     }
 }
